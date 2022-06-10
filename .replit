@@ -1,0 +1,4 @@
+run = "mix run --no-halt"
+
+[nix]
+channel = "stable-21_11"
