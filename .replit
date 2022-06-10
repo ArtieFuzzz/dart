@@ -1,5 +1,5 @@
 language = "nix"
-run = "./scripts/start.sh"
+run = "bash ./scripts/start.sh"
 
 [nix]
 channel = "stable-21_11"
