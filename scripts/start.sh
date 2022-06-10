@@ -1,1 +1,1 @@
-mix local.hex --force &&  mix local.rebar --force mix deps.get --force && mix run --no-halt
+mix local.hex --force &&  mix local.rebar --force && mix deps.get --force && mix run --no-halt
