@@ -4,8 +4,10 @@ defmodule Dart do
   require Logger
   use Application
 
+  @version Mix.Project.config[:version]
+
   def start(_type, _args) do
-    Logger.info("Starting Dart service")
+    Logger.info("Starting Dart")
 
     children = [
         Plug.Cowboy.child_spec(
@@ -20,8 +22,10 @@ defmodule Dart do
 
     opts = [strategy: :one_for_one, name: Dart.Supervisor]
 
-    Logger.info("Dart service started")
-    Logger.info("Listening on port #{Integer.to_string(Application.get_env(:dart, :port))}")
+    Logger.info("Dart service started\n")
+
+    IO.puts "Version #{@version}"
+    IO.puts "Listening on port #{Integer.to_string(Application.get_env(:dart, :port))}"
 
     Supervisor.start_link(children, opts)
   end
