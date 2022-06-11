@@ -14,9 +14,7 @@ defmodule Dart.Routes.Socket do
 
   def websocket_handle({:text, json}, state) do
     case Jason.decode!(json) do
-    %{"message" => _message} -> Utilities.reply("Welcome to Dart", state)
-    _ -> Utilities.reply("Welcome to Dart.", state)
-    end
+    %{"message" => message} -> Utilities.reply({200, "Message: #{message}"}, state)    end
   end
 
   def websocket_info(message, state) do

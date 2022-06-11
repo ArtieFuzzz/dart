@@ -21,7 +21,7 @@ defmodule Dart do
     opts = [strategy: :one_for_one, name: Dart.Supervisor]
 
     Logger.info("Dart service started")
-    Logger.info("Listening on 127.0.0.1:" <> Integer.to_string(Application.get_env(:dart, :port)))
+    Logger.info("Listening on port #{Integer.to_string(Application.get_env(:dart, :port))}")
 
     Supervisor.start_link(children, opts)
   end
