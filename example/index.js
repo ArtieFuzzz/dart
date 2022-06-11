@@ -1,6 +1,7 @@
 const ws = require('ws')
 
-const socket = new ws.WebSocket('ws://127.0.0.1:7701/ws')
+// const socket = new ws.WebSocket('wss://www.earth.cluster.ws/ws')
+const socket = new ws.WebSocket('ws://127.0.0.1/ws')
 
 socket.on('open' , () => {
   console.log('Socket opened')
