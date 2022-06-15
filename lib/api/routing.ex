@@ -1,4 +1,4 @@
-defmodule Dart.Routing do
+defmodule Dart.API.Routing do
   @moduledoc false
 
   import Plug.Conn

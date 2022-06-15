@@ -18,7 +18,7 @@ defmodule Dart do
             dispatch: dispatch()
           ]
         ),
-        Dart.Bot.Supervisor
+        Dart.Bot.Supervisor,
       ]
 
     opts = [strategy: :one_for_one, name: Dart.Supervisor]

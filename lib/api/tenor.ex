@@ -1,4 +1,5 @@
 defmodule Dart.TenorWrapper do
+  @moduledoc false
 
   @spec url(String.t()) :: String.t()
   def url(tags) do
