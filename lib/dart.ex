@@ -12,12 +12,13 @@ defmodule Dart do
     children = [
         Plug.Cowboy.child_spec(
           scheme: :http,
-          plug: Dart.Routing,
+          plug: Dart.API.Routing,
           options: [
             port: Application.get_env(:dart, :port),
             dispatch: dispatch()
           ]
-        )
+        ),
+        Dart.Bot.Supervisor
       ]
 
     opts = [strategy: :one_for_one, name: Dart.Supervisor]

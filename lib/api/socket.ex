@@ -1,4 +1,4 @@
-defmodule Dart.Routes.Socket do
+defmodule Dart.API.Routes.Socket do
   @moduledoc false
   @behaviour :cowboy_websocket
 
