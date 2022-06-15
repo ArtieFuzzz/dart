@@ -24,3 +24,7 @@ dart-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Env files
+.env.*
+.env
