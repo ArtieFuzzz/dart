@@ -37,7 +37,6 @@ defmodule Dart.Bot.Events do
   def handle_event({:INTERACTION_CREATE, interaction, _state}) do
     message = case Dart.Bot.Commands.execute_command(interaction) do
       {:reply, msg} -> msg
-      _ -> :ignore
     end
 
     Api.create_interaction_response(interaction, %{type: 4, data: %{content: message}})

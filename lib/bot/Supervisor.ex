@@ -13,8 +13,8 @@ defmodule Dart.Bot.Supervisor do
     Supervisor.init(children, strategy: :rest_for_one)
   end
 
-  def terminate(_reason, _state) do
-    IO.puts "Terminating"
+  def terminate(reason, _state) do
+    IO.puts "Terminating with reason #{reason}"
 
     :ok
   end
