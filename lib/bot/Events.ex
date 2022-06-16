@@ -15,7 +15,7 @@ defmodule Dart.Bot.Events do
   ]
 
   defp create_guild_commands(guild_id) do
-    Enum.each(@commands, fn {name, description ,options} ->
+    Enum.each(@commands, fn {name, description, options} ->
       Api.create_guild_application_command(guild_id, %{
         name: name,
         description: description,
