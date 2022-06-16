@@ -35,8 +35,8 @@ defmodule Dart do
     [
       {
         :_, [
-          {"/ws", Dart.Routes.Socket, []},
-          {:_, Plug.Cowboy.Handler, {Dart.Routing, [] }}
+          {"/ws", Dart.API.Socket, []},
+          {:_, Plug.Cowboy.Handler, {Dart.API.Routing, [] }}
         ]
       }
     ]

@@ -12,10 +12,6 @@ defmodule Dart.API.Routing do
 
     %{"tags" => tags} = conn.query_params
 
-    if tags == "" do
-      send_resp(conn, 400, Jason.encode!(%{error: "tags query is missing"}))
-    end
-
     gif = Dart.TenorWrapper.get(tags)
 
     conn
