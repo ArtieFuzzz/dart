@@ -7,3 +7,6 @@ config :dart,
 
 config :nostrum,
   token: System.get_env("DART_DISCORD_TOKEN")
+
+config :joken,
+  default_signer: System.get_env("DART_JWT_SECRET")

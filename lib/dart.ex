@@ -22,11 +22,13 @@ defmodule Dart do
       ]
 
     opts = [strategy: :one_for_one, name: Dart.Supervisor]
+    master_jwt = Dart.API.Utilities.generate_master_jwt()
 
     Logger.info("Dart service started\n")
 
     IO.puts "Version #{@version}"
     IO.puts "Listening on port #{Integer.to_string(Application.get_env(:dart, :port))}"
+    IO.puts "Here's your master JWT token: #{master_jwt}"
 
     Supervisor.start_link(children, opts)
   end

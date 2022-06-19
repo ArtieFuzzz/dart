@@ -2,7 +2,7 @@ defmodule Dart.API.Socket do
   @moduledoc false
   @behaviour :cowboy_websocket
 
-  alias Dart.Utilities
+  alias Dart.API.Utilities
 
   def init(req, state) do
     {:cowboy_websocket, req, state}
