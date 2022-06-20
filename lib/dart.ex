@@ -28,7 +28,6 @@ defmodule Dart do
 
     IO.puts "Version #{@version}"
     IO.puts "Listening on port #{Integer.to_string(Application.get_env(:dart, :port))}"
-    IO.puts "Here's your master JWT token: #{master_jwt}"
 
     Supervisor.start_link(children, opts)
   end
