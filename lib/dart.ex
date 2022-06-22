@@ -18,11 +18,10 @@ defmodule Dart do
             dispatch: dispatch()
           ]
         ),
-        Dart.Bot.Supervisor,
+        Dart.API.Redis
       ]
 
     opts = [strategy: :one_for_one, name: Dart.Supervisor]
-    master_jwt = Dart.API.Utilities.generate_master_jwt()
 
     Logger.info("Dart service started\n")
 
