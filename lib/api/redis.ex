@@ -16,26 +16,26 @@ defmodule Dart.API.Redis do
     {:ok, %{client: client}}
   end
 
-  def handle_call({:get, key}, state) do
-    Redix.command(state[:client], ["GET", key])
+  def handle_call({:get, key}, _from, state) do
+    value = Redix.command(state[:client], ["GET", key])
 
-    {:noreply, state}
+    {:reply, value, state}
   end
 
-  def handle_call({:set, key, value}, state) do
+  def handle_cast({:set, key, value}, state) do
     Redix.command(state[:client], ["SET", key, value])
 
     {:noreply, state}
   end
 
-  def handle_call({:del, key}, state) do
+  def handle_cast({:del, key}, state) do
     Redix.command(state[:client], ["DEL", key])
 
     {:noreply, state}
   end
 
   def get(key) do
-    {:ok, response} = GenServer.cast(:local_redis_client, {:get, key})
+    {_, response} = GenServer.call(:local_redis_client, {:get, key})
 
     response
   end
