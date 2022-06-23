@@ -18,7 +18,7 @@ defmodule Dart do
             dispatch: dispatch()
           ]
         ),
-        Dart.API.Redis
+        Dart.Redis
       ]
 
     opts = [strategy: :one_for_one, name: Dart.Supervisor]

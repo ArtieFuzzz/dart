@@ -22,7 +22,7 @@ defmodule Dart.API.Routing do
   get "/checkAuth" do
     authorization = conn |> get_req_header("authorization")
 
-    case Dart.API.Redis.get("key:#{authorization}") do
+    case Dart.Redis.get("key:#{authorization}") do
       nil ->
         conn
           |> put_resp_content_type("application/json")

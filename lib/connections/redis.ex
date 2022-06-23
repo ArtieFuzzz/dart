@@ -1,4 +1,4 @@
-defmodule Dart.API.Redis do
+defmodule Dart.Redis do
   use GenServer
 
   def start_link(_args) do
