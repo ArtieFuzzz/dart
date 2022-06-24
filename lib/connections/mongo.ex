@@ -1,4 +1,6 @@
 defmodule Dart.Mongodb do
+  @moduledoc false
+
   use GenServer
 
   def start_link(_args) do
