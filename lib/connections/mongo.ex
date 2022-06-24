@@ -36,16 +36,19 @@ defmodule Dart.Mongodb do
     {:noreply, state}
   end
 
+  @spec get(String.t(), map()) :: BSON.document() | nil
   def get(col, filter) do
     obj = GenServer.call(:local_mongodb_client, {:get, col, filter})
 
     obj
   end
 
+  @spec set(String.t(), map()) :: :ok
   def set(col, obj) do
     GenServer.cast(:local_mongodb_client, {:set, col, obj})
   end
 
+  @spec delete(String.t(), map()) :: :ok
   def delete(col, filter) do
     GenServer.cast(:local_mongodb_client, {:delete, col, filter})
   end
