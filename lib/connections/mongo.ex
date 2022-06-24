@@ -36,6 +36,12 @@ defmodule Dart.Mongodb do
     {:noreply, state}
   end
 
+  def handle_cast({:update, col, filter, obj}, state) do
+    Mongo.update_one(state[:client], col, filter, obj)
+
+    {:noreply, state}
+  end
+
   @spec get(String.t(), map()) :: BSON.document() | nil
   def get(col, filter) do
     obj = GenServer.call(:local_mongodb_client, {:get, col, filter})
@@ -51,5 +57,10 @@ defmodule Dart.Mongodb do
   @spec delete(String.t(), map()) :: :ok
   def delete(col, filter) do
     GenServer.cast(:local_mongodb_client, {:delete, col, filter})
+  end
+
+  @spec update(String.t(), map(), map()) :: :ok
+  def update(col, filter, obj) do
+    GenServer.cast(:local_mongodb_client, {:update, col, filter, obj})
   end
 end

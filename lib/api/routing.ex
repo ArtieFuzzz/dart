@@ -8,6 +8,7 @@ defmodule Dart.API.Routing do
 
   plug(:match)
   plug(:dispatch)
+  plug(Plug.Parsers, parsers: [:json], json_decoder: Jason)
 
   # Tenor API
   get "/tenor" do
@@ -23,24 +24,24 @@ defmodule Dart.API.Routing do
   end
 
   # Pastes
+  # ! Text should be URIComponent encoded
 
   post "/p/:id" do
+    conn = fetch_query_params(conn)
     %Plug.Conn{params: %{"id" => id}} = conn
-    data = Mongodb.get("pastes", %{id: id})
+    %{"text" => text} = conn.query_params
 
     case Mongodb.get("pastes", %{id: id}) do
       nil ->
+        Mongodb.set("pastes", %{id: id, text: text})
+
         conn
           |> put_resp_content_type("application/json")
           |> send_resp(201, Jason.encode!(%{message: "Created."}))
-      ^data ->
-        conn
-          |> put_resp_content_type("application/json")
-          |> send_resp(200, Jason.encode!(%{message: "Paste already exists"}))
       _ ->
         conn
           |> put_resp_content_type("application/json")
-          |> send_resp(200, Jason.encode!(%{message: "Something went wrong"}))
+          |> send_resp(200, Jason.encode!(%{message: "Paste already exists"}))
     end
   end
 
@@ -59,6 +60,25 @@ defmodule Dart.API.Routing do
     end
   end
 
+  patch "/p/:id" do
+    conn = fetch_query_params(conn)
+    %Plug.Conn{params: %{"id" => id}} = conn
+    %{"text" => text} = conn.query_params
+
+    case Mongodb.get("pastes", %{id: id}) do
+      nil ->
+        conn
+          |> put_resp_content_type("application/json")
+          |> send_resp(404, Jason.encode!(%{message: "Paste doesn't exist"}))
+      _ ->
+        Mongodb.update("pastes", %{id: id}, %{text: text})
+
+        conn
+          |> put_resp_content_type("application/json")
+          |> send_resp(200, Jason.encode!(%{message: "Updated"}))
+    end
+  end
+
   delete "/p/:id" do
     %Plug.Conn{params: %{"id" => id}} = conn
 
@@ -74,8 +94,6 @@ defmodule Dart.API.Routing do
           |> send_resp(200, Jason.encode!(%{message: "Deleted"}))
     end
   end
-
-  # TODO: add Patch route
 
   # Some tests :P
 
