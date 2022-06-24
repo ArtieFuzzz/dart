@@ -35,7 +35,7 @@ defmodule Dart.Mongodb do
   end
 
   def get(col, filter) do
-    {_, obj} = GenServer.call(:local_mongodb_client, {:get, col, filter})
+    obj = GenServer.call(:local_mongodb_client, {:get, col, filter})
 
     obj
   end

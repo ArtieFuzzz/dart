@@ -34,6 +34,22 @@ defmodule Dart.API.Routing do
     end
   end
 
+  get "/mongoTest" do
+    Dart.Mongodb.set("pastes", %{text: "Hello World!", id: "XCD"})
+
+    conn
+      |> put_resp_content_type("application/json")
+      |> send_resp(200, Jason.encode!(%{set: true}))
+  end
+
+  get "/mongoTest2" do
+    response = Dart.Mongodb.get("pastes", %{id: "XCD"})
+
+    conn
+      |> put_resp_content_type("application/json")
+      |> send_resp(200, Jason.encode!(%{text: response["text"]}))
+  end
+
   match _ do
       send_resp(conn, 404, "Route invalid")
   end
