@@ -27,6 +27,9 @@ defmodule Dart.API.Routing do
   # ! Text should be URIComponent encoded
 
   post "/p/:id" do
+    key = conn |> get_req_header("authorization")
+    check_auth(conn, key)
+
     conn = fetch_query_params(conn)
     %Plug.Conn{params: %{"id" => id}} = conn
     %{"text" => text} = conn.query_params
@@ -61,6 +64,9 @@ defmodule Dart.API.Routing do
   end
 
   patch "/p/:id" do
+    key = conn |> get_req_header("authorization")
+    check_auth(conn, key)
+
     conn = fetch_query_params(conn)
     %Plug.Conn{params: %{"id" => id}} = conn
     %{"text" => text} = conn.query_params
@@ -80,6 +86,9 @@ defmodule Dart.API.Routing do
   end
 
   delete "/p/:id" do
+    key = conn |> get_req_header("authorization")
+    check_auth(conn, key)
+
     %Plug.Conn{params: %{"id" => id}} = conn
 
     case Mongodb.get("pastes", %{id: id}) do
@@ -100,19 +109,36 @@ defmodule Dart.API.Routing do
   get "/checkAuth" do
     authorization = conn |> get_req_header("authorization")
 
-    case Dart.Redis.get("key:#{authorization}") do
-      nil ->
+    case is_authorized(authorization) do
+      :no_permission ->
         conn
           |> put_resp_content_type("application/json")
           |> send_resp(403, Jason.encode!(%{valid: false}))
-      _value ->
-          conn
-            |> put_resp_content_type("application/json")
-            |> send_resp(200, Jason.encode!(%{valid: true}))
+      :ok ->
+        conn
+          |> put_resp_content_type("application/json")
+          |> send_resp(200, Jason.encode!(%{valid: true}))
     end
   end
 
   match _ do
       send_resp(conn, 404, "Route invalid")
+  end
+
+  defp check_auth(conn, key) do
+    case is_authorized(key) do
+      :no_permission ->
+        conn
+          |> put_resp_content_type("application/json")
+          |> send_resp(403, Jason.encode!(%{message: "You do not have permission to access this route."}))
+      :ok -> :ok
+    end
+  end
+
+  defp is_authorized(key) do
+    case Dart.Redis.get("key:#{key}") do
+      nil -> :no_permission
+      _ -> :ok
+    end
   end
 end
